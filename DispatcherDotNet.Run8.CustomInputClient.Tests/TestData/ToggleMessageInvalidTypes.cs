@@ -1,5 +1,4 @@
 ﻿using DispatcherDotNet.Run8.CustomInputClient.Run8;
-using System;
 using System.Collections;
 
 namespace DispatcherDotNet.Run8.CustomInputClient.Tests.TestData
