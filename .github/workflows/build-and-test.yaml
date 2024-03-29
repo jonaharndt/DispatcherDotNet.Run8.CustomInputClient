@@ -7,7 +7,7 @@ on: push
 
 env:
   BUILD_CONFIGURATION: Debug
-  PACK_PROJECT: ${{ github.workspace }}/DispatcherDotNet.Run8.CustomInputClient.csproj
+  PACK_PROJECT: DispatcherDotNet.Run8.CustomInputClient.csproj
 
 jobs:
   build:
