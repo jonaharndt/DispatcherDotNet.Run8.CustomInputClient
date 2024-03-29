@@ -7,8 +7,7 @@ on: push
 
 env:
   BUILD_CONFIGURATION: Debug
-  PACK_PROJECT: DispatcherDotNet.Run8.CustomInputClient.csproj
-  BUILD_DIR: C:\models-api-runner\_work\ModelBase.Api\ModelBase.Api\Modelbase.Models\bin
+  PACK_PROJECT: ${{ github.workspace }}/DispatcherDotNet.Run8.CustomInputClient.csproj
 
 jobs:
   build:
@@ -42,4 +41,4 @@ jobs:
         run: dotnet pack ${{ env.PACK_PROJECT }} -c ${{ env.BUILD_CONFIGURATION }}
 
       - name: Nuget Push
-        run: dotnet nuget push ${{ github.workspace }}\${{ env.BUILD_CONFIGURATION }}\*.nupkg --api-key ${{ secrets.NUGET_PAT }} --source "github" --skip-duplicate
+        run: dotnet nuget push ${{ github.workspace }}/${{ env.BUILD_CONFIGURATION }}/*.nupkg --api-key ${{ secrets.NUGET_PAT }} --source "github" --skip-duplicate
