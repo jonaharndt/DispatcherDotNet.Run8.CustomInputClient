@@ -1,0 +1,45 @@
+name: PR - Dev Build / Push
+
+on: push
+#   pull_request:
+#     types: [opened, reopened, synchronize]
+#   workflow_dispatch:
+
+env:
+  BUILD_CONFIGURATION: Debug
+  PACK_PROJECT: DispatcherDotNet.Run8.CustomInputClient.csproj
+  BUILD_DIR: C:\models-api-runner\_work\ModelBase.Api\ModelBase.Api\Modelbase.Models\bin
+
+jobs:
+  build:
+    runs-on: [ubuntu-latest]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@master
+
+      - name: Version Patcher
+        uses: justalemon/VersionPatcher@v0.8
+        with:
+          version: ${{ vars.MAJOR }}.${{ vars.MINOR }}.${{ vars.RELEASE }}.${{ github.run_number }}-TEST
+          csproj-files: ${{ env.PACK_PROJECT }}
+
+      - name: Add Nuget Source
+        run: |
+          dotnet nuget remove source github
+          dotnet nuget add source --username ${{ secrets.NUGET_USER }} --password ${{ secrets.NUGET_PAT }} --store-password-in-clear-text --name github ${{ vars.NUGET_FEED }}
+
+      - name: .NET Restore
+        run: dotnet restore
+
+      - name: .NET Build
+        run: dotnet build --no-restore -c ${{ env.BUILD_CONFIGURATION }}
+
+      - name: .NET Test
+        run: dotnet test --no-restore --no-build
+
+      - name: .NET Pack
+        run: dotnet pack ${{ env.PACK_PROJECT }} -c ${{ env.BUILD_CONFIGURATION }}
+
+      - name: Nuget Push
+        run: dotnet nuget push ${{ github.workspace }}\${{ env.BUILD_CONFIGURATION }}\*.nupkg --api-key ${{ secrets.NUGET_PAT }} --source "github" --skip-duplicate
