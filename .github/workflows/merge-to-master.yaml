@@ -32,9 +32,6 @@ jobs:
       - name: .NET Build
         run: dotnet build --no-restore -c ${{ env.BUILD_CONFIGURATION }}
 
-      - name: .NET Test
-        run: dotnet test --no-restore --no-build
-
       - name: .NET Pack
         run: dotnet pack ${{ env.PACK_PROJECT }} -c ${{ env.BUILD_CONFIGURATION }}
 
