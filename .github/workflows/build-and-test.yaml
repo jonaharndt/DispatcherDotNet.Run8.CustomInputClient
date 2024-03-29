@@ -25,7 +25,6 @@ jobs:
 
       - name: Add Nuget Source
         run: |
-          dotnet nuget remove source github
           dotnet nuget add source --username ${{ secrets.NUGET_USER }} --password ${{ secrets.NUGET_PAT }} --store-password-in-clear-text --name github ${{ vars.NUGET_FEED }}
 
       - name: .NET Restore
