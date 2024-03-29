@@ -1,12 +1,11 @@
-name: PR - Build, Test, Nuget Pack
+name: PR - Merge to Master
 
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
-  workflow_dispatch:
+  push:
+    branches: master
 
 env:
-  BUILD_CONFIGURATION: Debug
+  BUILD_CONFIGURATION: Release
   PACK_PROJECT: ${{ github.workspace }}/${{ github.event.repository.name }}/DispatcherDotNet.Run8.CustomInputClient.csproj
 
 jobs:
@@ -20,7 +19,7 @@ jobs:
       - name: Version Patcher
         uses: justalemon/VersionPatcher@v0.8
         with:
-          version: ${{ vars.MAJOR }}.${{ vars.MINOR }}.${{ vars.RELEASE }}.${{ github.run_number }}-${{ github.event.pull_request.head.ref }}
+          version: ${{ vars.MAJOR }}.${{ vars.MINOR }}.${{ vars.RELEASE }}.${{ github.run_number }}
           csproj-files: ${{ env.PACK_PROJECT }}
 
       - name: Add Nuget Source
