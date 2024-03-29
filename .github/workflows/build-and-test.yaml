@@ -1,6 +1,9 @@
 name: PR - Dev Build / Push
 
-on: push
+on:
+  push:
+    branches: [setup]
+
 #   pull_request:
 #     types: [opened, reopened, synchronize]
 #   workflow_dispatch:
